@@ -88,6 +88,19 @@ The side menu style can be easily switched by simply changing the __configuratio
   private let configuration: SideMenuConfiguration = .sidebar
 ```
 
+## SideMenuConfiguration Reference
+
+Below you can see all the properties that you can set in the configuration.
+
+| Property          | Type            | Description                                          |
+| ----------------- | --------------- | ---------------------------------------------------- |
+| `menuStyle`       | `MenuStyle`     | Menu-style (`slide` or `sidebar`) |
+| `sidebarWidth`    | `CGFloat`       | Width of the left area |
+| `selectedStyle`   | `SelectedStyle` | Selected-style on the `slide` (`none`, `pinpoint`, `highlight`, `underline`) |
+| `selectedColor`   | `Color`         | Color at menu selected on the `slide` |
+| `backgroundColor` | `Color`         | Background color of the left area |
+
+
 ## License
 
 This package is licensed under [BSD License](LICENSE)
