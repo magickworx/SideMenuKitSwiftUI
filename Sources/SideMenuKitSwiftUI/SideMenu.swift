@@ -2,7 +2,7 @@
  * FILE:	SideMenu.swift
  * DESCRIPTION:	SideMenuKitSwiftUI: Primitive Container for SideMenu
  * DATE:	Fri, May 27 2022
- * UPDATED:	Fri, May 27 2022
+ * UPDATED:	Mon, Jun 13 2022
  * AUTHOR:	Kouichi ABE (WALL) / 阿部康一
  * E-MAIL:	kouichi@MagickWorX.COM
  * URL:		https://www.MagickWorX.COM/
@@ -12,16 +12,16 @@
 
 import SwiftUI
 
-public struct SideMenu<Menu,Content>: View where Menu: Hashable, Content: View
+public struct SMKSideMenu<Menu,Content>: View where Menu: Hashable, Content: View
 {
   @State private var showsSidebar: Bool = false
   @State private var selected: Menu
 
-  private let configuration: SideMenuConfiguration
-  private let menuItems: [SideMenuItem<Menu>]
+  private let configuration: SMKSideMenuConfiguration
+  private let menuItems: [SMKSideMenuItem<Menu>]
   private let mainContent: (Menu) -> Content
 
-  public init(configuration: SideMenuConfiguration, menuItems: [SideMenuItem<Menu>], startItem: Menu, @ViewBuilder content: @escaping (Menu) -> Content) {
+  public init(configuration: SMKSideMenuConfiguration, menuItems: [SMKSideMenuItem<Menu>], startItem: Menu, @ViewBuilder content: @escaping (Menu) -> Content) {
     self._selected = State(initialValue: startItem)
     self.configuration = configuration
     self.menuItems = menuItems
@@ -31,7 +31,7 @@ public struct SideMenu<Menu,Content>: View where Menu: Hashable, Content: View
   public var body: some View {
     Group {
       if configuration.menuStyle == .sidebar {
-        SidebarMenuStack(sidebarWidth: configuration.sidebarWidth, showsSidebar: $showsSidebar) {
+        SMKSidebarMenuStack(sidebarWidth: configuration.sidebarWidth, showsSidebar: $showsSidebar) {
           SidebarMenuView<Menu>(items: menuItems, selected: $selected, showsSidebar: $showsSidebar)
             .background(configuration.backgroundColor)
         } content: {
@@ -39,7 +39,7 @@ public struct SideMenu<Menu,Content>: View where Menu: Hashable, Content: View
         }
       }
       else {
-        SlideMenuStack(sidebarWidth: configuration.sidebarWidth, showsSidebar: $showsSidebar) {
+        SMKSlideMenuStack(sidebarWidth: configuration.sidebarWidth, showsSidebar: $showsSidebar) {
           SlideMenuView<Menu>(items: menuItems, selected: $selected, showsSidebar: $showsSidebar, configuration: configuration)
             .background(configuration.backgroundColor)
         } content: {
@@ -65,7 +65,7 @@ struct SideMenu_Previews: PreviewProvider
     case tornado
   }
 
-  static private let items: [SideMenuItem<Menu>] = [
+  static private let items: [SMKSideMenuItem<Menu>] = [
     (title: "晴れ", icon: "sun.max.fill",  tag: Menu.fine,    color: Color.orange),
     (title: "曇り", icon: "cloud.fill",    tag: Menu.cloudy,  color: Color.gray),
     (title: "雨",   icon: "umbrella.fill", tag: Menu.rainy,   color: Color.blue),
@@ -73,16 +73,16 @@ struct SideMenu_Previews: PreviewProvider
     (title: "雷",   icon: "bolt.fill",     tag: Menu.bolt,    color: Color.yellow),
     (title: "風",   icon: "wind",          tag: Menu.wind,    color: Color.green),
     (title: "竜巻", icon: "tornado",       tag: Menu.tornado, color: Color.indigo)
-  ].map({ SideMenuItem<Menu>(title: $0.title, icon: $0.icon, tag: $0.tag, color: $0.color) })
+  ].map({ SMKSideMenuItem<Menu>(title: $0.title, icon: $0.icon, tag: $0.tag, color: $0.color) })
 
 #if true
-  static private let configuration: SideMenuConfiguration = .slide
+  static private let configuration: SMKSideMenuConfiguration = .slide
 #else
-  static private let configuration: SideMenuConfiguration = .sidebar
+  static private let configuration: SMKSideMenuConfiguration = .sidebar
 #endif
 
   static var previews: some View {
-    SideMenu<Menu,ContentView>(configuration: configuration, menuItems: items, startItem: .fine) {
+    SMKSideMenu<Menu,ContentView>(configuration: configuration, menuItems: items, startItem: .fine) {
       (menu) -> ContentView in
       ContentView(selected: menu, items: items)
     }
@@ -94,9 +94,9 @@ struct SideMenu_Previews: PreviewProvider
     @State private var message: String = ""
 
     private let menu: Menu
-    private let item: SideMenuItem<Menu>
+    private let item: SMKSideMenuItem<Menu>
 
-    init(selected menu: Menu, items: [SideMenuItem<Menu>]) {
+    init(selected menu: Menu, items: [SMKSideMenuItem<Menu>]) {
       self.menu = menu
       self.item = items.filter({ $0.tag == menu })[0]
     }

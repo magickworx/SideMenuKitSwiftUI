@@ -2,7 +2,7 @@
  * FILE:	SlideMenuItem.swift
  * DESCRIPTION:	SideMenuKitSwiftUI: Slide Menu Item on Sidebar
  * DATE:	Wed, Apr 27 2022
- * UPDATED:	Sat, May 28 2022
+ * UPDATED:	Mon, Jun 13 2022
  * AUTHOR:	Kouichi ABE (WALL) / 阿部康一
  * E-MAIL:	kouichi@MagickWorX.COM
  * URL:		https://www.MagickWorX.COM/
@@ -12,16 +12,16 @@
 
 import SwiftUI
 
-struct SlideMenuItem<Item>: View where Item: SideMenuKitMenuItem
+struct SlideMenuItem<Item>: View where Item: SMKMenuItem
 {
   private let item: Item
-  private let configuration: SideMenuConfiguration
+  private let configuration: SMKSideMenuConfiguration
   private let selectedColor: Color
 
   @Binding private var selected: Item.Tag
   @Binding private var showsSidebar: Bool
 
-  init(_ item: Item, configuration: SideMenuConfiguration, selected: Binding<Item.Tag>, showsSidebar: Binding<Bool>) {
+  init(_ item: Item, configuration: SMKSideMenuConfiguration, selected: Binding<Item.Tag>, showsSidebar: Binding<Bool>) {
     self.item = item
     self.configuration = configuration
     self.selectedColor = configuration.selectedColor

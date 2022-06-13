@@ -2,7 +2,7 @@
  * FILE:	SlideMenuStack.swift
  * DESCRIPTION:	SideMenuKitSwiftUI: Slide Menu Stack Container
  * DATE:	Tue, Apr 26 2022
- * UPDATED:	Wed, May 25 2022
+ * UPDATED:	Mon, Jun 13 2022
  * AUTHOR:	Kouichi ABE (WALL) / 阿部康一
  * E-MAIL:	kouichi@MagickWorX.COM
  * URL:		https://www.MagickWorX.COM/
@@ -13,7 +13,7 @@
 
 import SwiftUI
 
-public struct SlideMenuStack<SidebarContent,Content>: View where SidebarContent: View, Content: View
+public struct SMKSlideMenuStack<SidebarContent,Content>: View where SidebarContent: View, Content: View
 {
   private let sidebarContent: SidebarContent
   private let mainContent: Content

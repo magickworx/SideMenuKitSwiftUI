@@ -2,7 +2,7 @@
  * FILE:	SideMenuConfiguration.swift
  * DESCRIPTION:	SideMenuKitSwiftUI: Customizes Style of Sidebar
  * DATE:	Tue, May 24 2022
- * UPDATED:	Fri, May 27 2022
+ * UPDATED:	Mon, Jun 13 2022
  * AUTHOR:	Kouichi ABE (WALL) / 阿部康一
  * E-MAIL:	kouichi@MagickWorX.COM
  * URL:		https://www.MagickWorX.COM/
@@ -12,7 +12,7 @@
 
 import SwiftUI
 
-public struct SideMenuConfiguration
+public struct SMKSideMenuConfiguration
 {
   public enum MenuStyle
   {
@@ -36,10 +36,10 @@ public struct SideMenuConfiguration
   public var backgroundColor: Color
 }
 
-extension SideMenuConfiguration
+extension SMKSideMenuConfiguration
 {
-  public static var `default`: SideMenuConfiguration {
-    SideMenuConfiguration(
+  public static var `default`: SMKSideMenuConfiguration {
+    SMKSideMenuConfiguration(
       menuStyle: .slide,
       sidebarWidth: 240,
       selectedStyle: .highlight,
@@ -48,8 +48,8 @@ extension SideMenuConfiguration
     )
   }
 
-  public static var slide: SideMenuConfiguration {
-    SideMenuConfiguration(
+  public static var slide: SMKSideMenuConfiguration {
+    SMKSideMenuConfiguration(
       menuStyle: .slide,
       sidebarWidth: 160,
       selectedStyle: .pinpoint,
@@ -58,8 +58,8 @@ extension SideMenuConfiguration
     )
   }
 
-  public static var sidebar: SideMenuConfiguration {
-    SideMenuConfiguration(
+  public static var sidebar: SMKSideMenuConfiguration {
+    SMKSideMenuConfiguration(
       menuStyle: .sidebar,
       sidebarWidth: 80,
       selectedStyle: .none,

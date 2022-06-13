@@ -2,7 +2,7 @@
  * FILE:	SlideMenuView.swift
  * DESCRIPTION:	SideMenuKitSwiftUI: Manages the Slide Menus on Sidebar
  * DATE:	Mon, May 23 2022
- * UPDATED:	Fri, May 27 2022
+ * UPDATED:	Mon, Jun 13 2022
  * AUTHOR:	Kouichi ABE (WALL) / 阿部康一
  * E-MAIL:	kouichi@MagickWorX.COM
  * URL:		https://www.MagickWorX.COM/
@@ -14,14 +14,14 @@ import SwiftUI
 
 struct SlideMenuView<Menu>: View where Menu: Hashable
 {
-  private let items: [SideMenuItem<Menu>]
+  private let items: [SMKSideMenuItem<Menu>]
 
   @Binding private var selected: Menu
   @Binding private var showsSidebar: Bool
 
-  private let configuration: SideMenuConfiguration
+  private let configuration: SMKSideMenuConfiguration
 
-  init(items: [SideMenuItem<Menu>], selected: Binding<Menu>, showsSidebar: Binding<Bool>, configuration: SideMenuConfiguration) {
+  init(items: [SMKSideMenuItem<Menu>], selected: Binding<Menu>, showsSidebar: Binding<Bool>, configuration: SMKSideMenuConfiguration) {
     self.items = items
     self._selected = selected
     self._showsSidebar = showsSidebar

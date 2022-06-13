@@ -2,7 +2,7 @@
  * FILE:	SideMenuItem.swift
  * DESCRIPTION:	SideMenuKitSwiftUI: Menu Item for Sidebar
  * DATE:	Wed, Apr 27 2022
- * UPDATED:	Mon, May 23 2022
+ * UPDATED:	Mon, Jun 13 2022
  * AUTHOR:	Kouichi ABE (WALL) / 阿部康一
  * E-MAIL:	kouichi@MagickWorX.COM
  * URL:		https://www.MagickWorX.COM/
@@ -12,7 +12,7 @@
 
 import SwiftUI
 
-public protocol SideMenuKitMenuItem: Hashable, Identifiable
+public protocol SMKMenuItem: Hashable, Identifiable
 {
   associatedtype Tag: Hashable
 
@@ -24,7 +24,7 @@ public protocol SideMenuKitMenuItem: Hashable, Identifiable
   var color: Color { get }
 }
 
-public struct SideMenuItem<Menu>: SideMenuKitMenuItem where Menu: Hashable
+public struct SMKSideMenuItem<Menu>: SMKMenuItem where Menu: Hashable
 {
   public typealias Tag = Menu
 
@@ -51,7 +51,7 @@ public struct SideMenuItem<Menu>: SideMenuKitMenuItem where Menu: Hashable
 }
 
 // MARK: - Defaults
-extension SideMenuKitMenuItem
+extension SMKMenuItem
 {
   public func hash(into hasher: inout Hasher) {
     hasher.combine(id)

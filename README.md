@@ -31,7 +31,7 @@ struct ContentView: View
     case tornado
   }
 
-  private let items: [SideMenuItem<Menu>] = [
+  private let items: [SMKSideMenuItem<Menu>] = [
     (title: "Fine",    icon: "sun.max.fill",  tag: Menu.fine,    color: Color.orange),
     (title: "Cloudy",  icon: "cloud.fill",    tag: Menu.cloudy,  color: Color.gray),
     (title: "Rainy",   icon: "umbrella.fill", tag: Menu.rainy,   color: Color.blue),
@@ -39,12 +39,12 @@ struct ContentView: View
     (title: "Bolt",    icon: "bolt.fill",     tag: Menu.bolt,    color: Color.yellow),
     (title: "Wind",    icon: "wind",          tag: Menu.wind,    color: Color.green),
     (title: "Tornado", icon: "tornado",       tag: Menu.tornado, color: Color.indigo)
-  ].map({ SideMenuItem<Menu>(title: $0.title, icon: $0.icon, tag: $0.tag, color: $0.color) })
+  ].map({ SMKSideMenuItem<Menu>(title: $0.title, icon: $0.icon, tag: $0.tag, color: $0.color) })
 
-  private let configuration: SideMenuConfiguration = .slide
+  private let configuration: SMKSideMenuConfiguration = .slide
 
   var body: some View {
-    SideMenu<Menu,MenuContentView>(configuration: configuration, menuItems: items, startItem: .fine) {
+    SMKSideMenu<Menu,MenuContentView>(configuration: configuration, menuItems: items, startItem: .fine) {
       (menu) -> MenuContentView in
       MenuContentView(selected: menu, items: items)
     }
@@ -53,9 +53,9 @@ struct ContentView: View
   struct MenuContentView: View
   {
     private let menu: Menu
-    private let item: SideMenuItem<Menu>
+    private let item: SMKSideMenuItem<Menu>
 
-    init(selected menu: Menu, items: [SideMenuItem<Menu>]) {
+    init(selected menu: Menu, items: [SMKSideMenuItem<Menu>]) {
       self.menu = menu
       self.item = items.filter({ $0.tag == menu })[0]
     }
@@ -81,14 +81,14 @@ The side menu style can be easily switched by simply changing the __configuratio
 
 
 ```swift
-  private let configuration: SideMenuConfiguration = .slide
+  private let configuration: SMKSideMenuConfiguration = .slide
 ```
 
 ```swift
-  private let configuration: SideMenuConfiguration = .sidebar
+  private let configuration: SMKSideMenuConfiguration = .sidebar
 ```
 
-## SideMenuConfiguration Reference
+## SMKSideMenuConfiguration Reference
 
 Below you can see all the properties that you can set in the configuration.
 
@@ -100,6 +100,12 @@ Below you can see all the properties that you can set in the configuration.
 | `selectedColor`   | `Color`         | Color at menu selected on the `slide` |
 | `backgroundColor` | `Color`         | Background color of the left area |
 
+
+## Requirements
+
+ - Swift 5 or later
+ - iOS 15 or later
+ - Xcode 13.4 or later
 
 ## License
 

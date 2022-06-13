@@ -2,7 +2,7 @@
  * FILE:	SidebarMenuStack.swift
  * DESCRIPTION:	SideMenuKitSwiftUI: Sidebar Menu Stack Container
  * DATE:	Tue, May 24 2022
- * UPDATED:	Thu, May 26 2022
+ * UPDATED:	Mon, Jun 13 2022
  * AUTHOR:	Kouichi ABE (WALL) / 阿部康一
  * E-MAIL:	kouichi@MagickWorX.COM
  * URL:		https://www.MagickWorX.COM/
@@ -12,7 +12,7 @@
 
 import SwiftUI
 
-public struct SidebarMenuStack<MenuContent,Content>: View where MenuContent: View, Content: View
+public struct SMKSidebarMenuStack<MenuContent,Content>: View where MenuContent: View, Content: View
 {
   private let menuContent: MenuContent
   private let mainContent: Content
@@ -105,7 +105,7 @@ public struct SidebarMenuStack<MenuContent,Content>: View where MenuContent: Vie
   }
 }
 
-extension SidebarMenuStack
+extension SMKSidebarMenuStack
 {
   @ViewBuilder
   private func touchableView() -> some View {

@@ -2,7 +2,7 @@
  * FILE:	SidebarMenuItem.swift
  * DESCRIPTION:	SideMenuKitSwiftUI: View to Display Menu Icon on Sidebar
  * DATE:	Tue, May 24 2022
- * UPDATED:	Tue, May 24 2022
+ * UPDATED:	Mon, Jun 13 2022
  * AUTHOR:	Kouichi ABE (WALL) / 阿部康一
  * E-MAIL:	kouichi@MagickWorX.COM
  * URL:		https://www.MagickWorX.COM/
@@ -12,7 +12,7 @@
 
 import SwiftUI
 
-struct SidebarMenuItem<Item>: View where Item: SideMenuKitMenuItem
+struct SidebarMenuItem<Item>: View where Item: SMKMenuItem
 {
   private let item: Item
 
