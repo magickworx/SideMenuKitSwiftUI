@@ -2,7 +2,7 @@
  * FILE:	SlideMenuItem.swift
  * DESCRIPTION:	SideMenuKitSwiftUI: Slide Menu Item on Sidebar
  * DATE:	Wed, Apr 27 2022
- * UPDATED:	Fri, Jun 17 2022
+ * UPDATED:	Sun, Nov 20 2022
  * AUTHOR:	Kouichi ABE (WALL) / 阿部康一
  * E-MAIL:	kouichi@MagickWorX.COM
  * URL:		https://www.MagickWorX.COM/
@@ -67,7 +67,7 @@ struct SlideMenuItem<Item>: View where Item: SMKMenuItem
       item.icon
         .resizable()
         .aspectRatio(contentMode: .fit)
-      Text(item.title).font(.headline)
+      Text(LocalizedStringKey(item.title)).font(.headline)
     }
     .frame(maxWidth: .infinity, alignment: .leading)
     .contentShape(Rectangle()) // XXX: 空白領域をタップ可能にする仕掛け

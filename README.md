@@ -43,8 +43,10 @@ struct ContentView: View
 
   private let configuration: SMKSideMenuConfiguration = .slide
 
+  @State private var path: NavigationPath = .init()
+
   var body: some View {
-    SMKSideMenu<Menu,MenuContentView>(configuration: configuration, menuItems: items, startItem: .fine) {
+    SMKSideMenu<Menu,MenuContentView>(navigationPath: $path, configuration: configuration, menuItems: items, startItem: .fine) {
       (menu) -> MenuContentView in
       MenuContentView(selected: menu, items: items)
     }
@@ -68,6 +70,9 @@ struct ContentView: View
           .foregroundColor(.white)
           .frame(width: 192, height: 192)
         Spacer()
+      }
+      .navigationDestination(for: String.self) { value in
+        Text(value) // can handle NavigationLink programmatically
       }
       .navigationTitle("\(item.title)")
       .frame(maxWidth: .infinity, alignment: .center)
@@ -100,6 +105,18 @@ Below you can see all the properties that you can set in the configuration.
 | `selectedColor`   | `Color`         | Color at menu selected on the `slide` |
 | `backgroundColor` | `Color`         | Background color of the left area |
 
+
+## SMKSideMenu Initializers
+
+```swift
+  SMKSideMenu(configuration: SMKSideMenuConfiguration, menuItems: [SMKSideMenuItem<Menu>], startItem: Menu, @ViewBuilder content: @escaping (Menu) -> Content) -> View where Menu: Hashable, Content: View
+```
+
+On iOS 16 and later, the initializer supports NavigationPath for NavigationStack.
+
+```swift
+  SMKSideMenu(navigationPath: Binding<NavigationPath>, configuration: SMKSideMenuConfiguration, menuItems: [SMKSideMenuItem<Menu>], startItem: Menu, @ViewBuilder content: @escaping (Menu) -> Content) -> View where Menu: Hashable, Content: View
+```
 
 ## Requirements
 

@@ -2,7 +2,7 @@
  * FILE:	SideMenu.swift
  * DESCRIPTION:	SideMenuKitSwiftUI: Primitive Container for SideMenu
  * DATE:	Fri, May 27 2022
- * UPDATED:	Mon, Jun 13 2022
+ * UPDATED:	Mon, Nov 21 2022
  * AUTHOR:	Kouichi ABE (WALL) / 阿部康一
  * E-MAIL:	kouichi@MagickWorX.COM
  * URL:		https://www.MagickWorX.COM/
@@ -28,22 +28,62 @@ public struct SMKSideMenu<Menu,Content>: View where Menu: Hashable, Content: Vie
     self.mainContent = content
   }
 
+  private var _navigationPath: Any?
+  @available(iOS 16.0, *)
+  private var navigationPath: Binding<NavigationPath> {
+    get {
+      return _navigationPath as! Binding<NavigationPath>
+    }
+    set {
+      _navigationPath = newValue
+    }
+  }
+
+  @available(iOS 16.0, *)
+  public init(navigationPath: Binding<NavigationPath>, configuration: SMKSideMenuConfiguration, menuItems: [SMKSideMenuItem<Menu>], startItem: Menu, @ViewBuilder content: @escaping (Menu) -> Content) {
+    self._selected = State(initialValue: startItem)
+    self.configuration = configuration
+    self.menuItems = menuItems
+    self.mainContent = content
+    self.navigationPath = navigationPath // XXX: Assign Last
+  }
+
   public var body: some View {
     Group {
       if configuration.menuStyle == .sidebar {
-        SMKSidebarMenuStack(sidebarWidth: configuration.sidebarWidth, showsSidebar: $showsSidebar) {
-          SidebarMenuView<Menu>(items: menuItems, selected: $selected, showsSidebar: $showsSidebar)
-            .background(configuration.backgroundColor)
-        } content: {
-          mainContent(selected)
+        if #available(iOS 16.0, *) {
+          SMKSidebarMenuStack(navigationPath: navigationPath, sidebarWidth: configuration.sidebarWidth, showsSidebar: $showsSidebar) {
+            SidebarMenuView<Menu>(items: menuItems, selected: $selected, showsSidebar: $showsSidebar)
+              .background(configuration.backgroundColor)
+          } content: {
+            mainContent(selected)
+          }
+        }
+        else {
+          SMKSidebarMenuStack(sidebarWidth: configuration.sidebarWidth, showsSidebar: $showsSidebar) {
+            SidebarMenuView<Menu>(items: menuItems, selected: $selected, showsSidebar: $showsSidebar)
+              .background(configuration.backgroundColor)
+          } content: {
+            mainContent(selected)
+          }
         }
       }
       else {
-        SMKSlideMenuStack(sidebarWidth: configuration.sidebarWidth, showsSidebar: $showsSidebar) {
-          SlideMenuView<Menu>(items: menuItems, selected: $selected, showsSidebar: $showsSidebar, configuration: configuration)
-            .background(configuration.backgroundColor)
-        } content: {
-          mainContent(selected)
+        if #available(iOS 16.0, *) {
+          SMKSlideMenuStack(navigationPath: navigationPath, sidebarWidth: configuration.sidebarWidth, showsSidebar: $showsSidebar) {
+            SlideMenuView<Menu>(items: menuItems, selected: $selected, showsSidebar: $showsSidebar, configuration: configuration)
+              .background(configuration.backgroundColor)
+          } content: {
+            mainContent(selected)
+          }
+        }
+        else {
+          SMKSlideMenuStack(sidebarWidth: configuration.sidebarWidth, showsSidebar: $showsSidebar) {
+            SlideMenuView<Menu>(items: menuItems, selected: $selected, showsSidebar: $showsSidebar, configuration: configuration)
+              .background(configuration.backgroundColor)
+          } content: {
+            mainContent(selected)
+          }
         }
       }
     }

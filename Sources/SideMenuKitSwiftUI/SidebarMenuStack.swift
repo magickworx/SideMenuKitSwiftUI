@@ -2,7 +2,7 @@
  * FILE:	SidebarMenuStack.swift
  * DESCRIPTION:	SideMenuKitSwiftUI: Sidebar Menu Stack Container
  * DATE:	Tue, May 24 2022
- * UPDATED:	Mon, Jun 13 2022
+ * UPDATED:	Mon, Nov 21 2022
  * AUTHOR:	Kouichi ABE (WALL) / 阿部康一
  * E-MAIL:	kouichi@MagickWorX.COM
  * URL:		https://www.MagickWorX.COM/
@@ -42,36 +42,37 @@ public struct SMKSidebarMenuStack<MenuContent,Content>: View where MenuContent: 
   private let menuID: Int = 1
   private let contentID: Int = 2
 
+  private var _navigationPath: Any?
+  @available(iOS 16.0, *)
+  private var navigationPath: Binding<NavigationPath> {
+    get {
+      return _navigationPath as! Binding<NavigationPath>
+    }
+    set {
+      _navigationPath = newValue
+    }
+  }
+
+  @available(iOS 16.0, *)
+  public init(navigationPath: Binding<NavigationPath>, sidebarWidth: CGFloat, showsSidebar: Binding<Bool>, @ViewBuilder sidebar: () -> MenuContent, @ViewBuilder content: () -> Content) {
+    self.sidebarWidth = sidebarWidth
+    self._showsSidebar = showsSidebar
+    menuContent = sidebar()
+    mainContent = content()
+    menuClosedOffset = CGPoint(x: sidebarWidth, y: 0)
+    self.navigationPath = navigationPath
+  }
+
   public var body: some View {
     GeometryReader { geometry in
       let width: CGFloat = geometry.size.width
       let height: CGFloat = geometry.size.height
       BetterScrollView(axes: .horizontal, showsIndicators: false, contentOffset: $contentOffset, scrollDirection: $scrollDirection) { proxy in
         HStack(spacing: 0) {
-          menuContent
-            .frame(width: self.sidebarWidth)
-            .id(menuID)
-            .rotation3DEffect(.degrees(self.angle), axis: (x: 0.0, y: 1.0, z: 0.0), anchor: .trailing)
-          NavigationView {
-            mainContent
-              .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                  Button(action: {
-                    self.toggleSidebar()
-                  }, label: {
-                    Image(systemName: "line.3.horizontal")
-                      .imageScale(.large)
-                      .foregroundColor(.primary)
-                      .rotationEffect(.degrees(self.angle - 90))
-                  })
-                }
-              }
-              .overlay {
-                self.touchableView()
-              }
-          }
-          .frame(width: width, height: height)
-          .id(contentID)
+          makeContentOfMenu()
+          makeContentOfNavigation()
+            .frame(width: width, height: height)
+            .id(contentID)
         }
         .onChange(of: contentOffset) { offset in
           self.angle = -((90.0 * offset.x) / self.sidebarWidth)
@@ -102,6 +103,50 @@ public struct SMKSidebarMenuStack<MenuContent,Content>: View where MenuContent: 
       Text(String(format: "angle: %.1f, offset: (%.1f, %.1f) [%@] ",angle,contentOffset.x,contentOffset.y, showsSidebar ? "open" : "close"))
     }
     */
+  }
+}
+
+extension SMKSidebarMenuStack
+{
+  private func makeContentOfMenu() -> some View {
+    menuContent
+      .frame(width: self.sidebarWidth)
+      .id(menuID)
+      .rotation3DEffect(.degrees(self.angle), axis: (x: 0.0, y: 1.0, z: 0.0), anchor: .trailing)
+  }
+
+  private func makeContentOfMain() -> some View {
+    mainContent
+      .toolbar {
+        ToolbarItem(placement: .navigationBarLeading) {
+          Button(action: {
+            self.toggleSidebar()
+          }, label: {
+            Image(systemName: "line.3.horizontal")
+              .imageScale(.large)
+              .foregroundColor(.primary)
+              .rotationEffect(.degrees(self.angle - 90))
+          })
+        }
+      }
+      .overlay {
+        self.touchableView()
+      }
+  }
+
+  private func makeContentOfNavigation() -> some View {
+    Group {
+      if #available(iOS 16.0, *) {
+        NavigationStack(path: self.navigationPath) {
+          makeContentOfMain()
+        }
+      }
+      else {
+        NavigationView {
+          makeContentOfMain()
+        }
+      }
+    }
   }
 }
 
