@@ -2,11 +2,11 @@
  * FILE:	BetterScrollView.swift
  * DESCRIPTION:	SideMenuKitSwiftUI: ScrollView with Scroll Offset
  * DATE:	Wed, May 25 2022
- * UPDATED:	Sat, May 28 2022
+ * UPDATED:	Thu, Apr  4 2024
  * AUTHOR:	Kouichi ABE (WALL) / 阿部康一
  * E-MAIL:	kouichi@MagickWorX.COM
  * URL:		https://www.MagickWorX.COM/
- * COPYRIGHT:	(c) 2022 阿部康一／Kouichi ABE (WALL)
+ * COPYRIGHT:	(c) 2022-2024 阿部康一／Kouichi ABE (WALL)
  * LICENSE:	The 2-Clause BSD License (See LICENSE.txt)
  */
 
@@ -45,11 +45,13 @@ struct BetterScrollView<Content>: View where Content: View
 
   @StateObject private var scrollViewHelper: ScrollViewHelper = .init()
 
-  init(axes: Axis.Set = .vertical,
-       showsIndicators: Bool = true,
-       contentOffset: Binding<CGPoint>,
-       scrollDirection: Binding<ScrollDirection>,
-       @ViewBuilder content: @escaping (ScrollViewProxy) -> Content) {
+  init(
+    axes: Axis.Set = .vertical,
+    showsIndicators: Bool = true,
+    contentOffset: Binding<CGPoint>,
+    scrollDirection: Binding<ScrollDirection>,
+    ViewBuilder content: @escaping (ScrollViewProxy) -> Content
+  ) {
     self.axes = axes
     self.showsIndicators = showsIndicators
     self._contentOffset = contentOffset
@@ -231,8 +233,8 @@ private struct PreviewContentView: View
           .frame(width: width, height: height)
           .id(2)
         }
-        .onChange(of: contentOffset) { offset in
-          self.angle = -((90.0 * offset.x) / 80.0)
+        .onChange(of: contentOffset) { oldOffset, newOffset in
+          self.angle = -((90.0 * newOffset.x) / 80.0)
         }
         .onAppear {
           self.scrollViewProxy = proxy

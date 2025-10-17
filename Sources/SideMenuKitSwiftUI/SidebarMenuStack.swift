@@ -2,11 +2,11 @@
  * FILE:	SidebarMenuStack.swift
  * DESCRIPTION:	SideMenuKitSwiftUI: Sidebar Menu Stack Container
  * DATE:	Tue, May 24 2022
- * UPDATED:	Mon, Nov 21 2022
+ * UPDATED:	Thu, Apr  4 2024
  * AUTHOR:	Kouichi ABE (WALL) / 阿部康一
  * E-MAIL:	kouichi@MagickWorX.COM
  * URL:		https://www.MagickWorX.COM/
- * COPYRIGHT:	(c) 2022 阿部康一／Kouichi ABE (WALL)
+ * COPYRIGHT:	(c) 2022-2024 阿部康一／Kouichi ABE (WALL)
  * LICENSE:	The 2-Clause BSD License (See LICENSE.txt)
  */
 
@@ -25,7 +25,12 @@ public struct SMKSidebarMenuStack<MenuContent,Content>: View where MenuContent: 
   private let menuOpenedOffset: CGPoint = .zero
   private let menuClosedOffset: CGPoint
 
-  public init(sidebarWidth: CGFloat, showsSidebar: Binding<Bool>, @ViewBuilder sidebar: () -> MenuContent, @ViewBuilder content: () -> Content) {
+  public init(
+    sidebarWidth: CGFloat,
+    showsSidebar: Binding<Bool>,
+    @ViewBuilder sidebar: () -> MenuContent,
+    @ViewBuilder content: () -> Content
+  ) {
     self.sidebarWidth = sidebarWidth
     self._showsSidebar = showsSidebar
     menuContent = sidebar()
@@ -74,16 +79,16 @@ public struct SMKSidebarMenuStack<MenuContent,Content>: View where MenuContent: 
             .frame(width: width, height: height)
             .id(contentID)
         }
-        .onChange(of: contentOffset) { offset in
-          self.angle = -((90.0 * offset.x) / self.sidebarWidth)
+        .onChange(of: contentOffset) { oldOffset, newOffset in
+          self.angle = -((90.0 * newOffset.x) / self.sidebarWidth)
           switch self.angle {
             case   0: self.showsSidebar = true
             case -90: self.showsSidebar = false
             default: break
           }
         }
-        .onChange(of: showsSidebar) { shows in
-          self.openSidebar(shows)
+        .onChange(of: showsSidebar) { oldShow, newShows in
+          self.openSidebar(newShows)
         }
         .onAppear {
           self.scrollViewProxy = proxy
