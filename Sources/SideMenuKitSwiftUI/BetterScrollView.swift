@@ -2,11 +2,11 @@
  * FILE:	BetterScrollView.swift
  * DESCRIPTION:	SideMenuKitSwiftUI: ScrollView with Scroll Offset
  * DATE:	Wed, May 25 2022
- * UPDATED:	Thu, Apr  4 2024
+ * UPDATED:	Sat, Oct 18 2025
  * AUTHOR:	Kouichi ABE (WALL) / 阿部康一
  * E-MAIL:	kouichi@MagickWorX.COM
  * URL:		https://www.MagickWorX.COM/
- * COPYRIGHT:	(c) 2022-2024 阿部康一／Kouichi ABE (WALL)
+ * COPYRIGHT:	(c) 2022-2025 阿部康一／Kouichi ABE (WALL)
  * LICENSE:	The 2-Clause BSD License (See LICENSE.txt)
  */
 
@@ -149,11 +149,11 @@ extension BetterScrollView
   }
 }
 
-private struct ScrollOffsetPreferenceKey: PreferenceKey
+private struct ScrollOffsetPreferenceKey: @preconcurrency PreferenceKey
 {
   typealias Value = CGPoint
 
-  static var defaultValue: Value = .zero
+  @MainActor static var defaultValue: Value = .zero
 
   static func reduce(value: inout Value, nextValue: () -> Value) {
     /*
